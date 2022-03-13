@@ -1,5 +1,5 @@
 ### chem 96 final project (14 March 2022, prof robustelli):
-### IDP molecular dynamics trajectory clustering
+# IDP molecular dynamics trajectory clustering
 
 The files in this folder elaborate three approaches (two via Jupyter Notebooks, one from the command line) to MD clustering. The model system is the intrinsically disordered n-terminal domain of the measles virus nucleoprotein.
 
@@ -10,3 +10,7 @@ __See the `results` folders for:__
 2) radius of gyration probability distribution plots
 3) RMSD from fully helical conformation histograms
 4) helix/sheet secondary structure propensity
+
+__See the main folder for:__
+1) the Jupyter notebook delineating all computations and analyses
+2) presentation slides introducing the concept and preliminary results
