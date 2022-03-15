@@ -1,0 +1,26 @@
+# activate MOLINFO functionalities
+MOLINFO STRUCTURE=../../data/diala/dialaA.pdb 
+# compute the backbone dihedral angle phi, defined by atoms C-N-CA-C
+# you should use MOLINFO shortcuts
+phi: TORSION ATOMS=@phi-2
+# compute the backbone dihedral angle psi, defined by atoms N-CA-C-N
+# here also you should to use MOLINFO shortcuts
+psi: TORSION ATOMS=@psi-2
+# the difference between the two structures is 0.116584 nm
+rA: RMSD REFERENCE=../../data/diala/sA.pdb TYPE=OPTIMAL
+rB: RMSD REFERENCE=../../data/diala/sB.pdb TYPE=OPTIMAL
+# define progression CV
+s: CUSTOM ARG=rA,rB VAR=x,y PERIODIC=NO FUNC=x+y
+# activate well-tempered metadynamics in phi
+metad: METAD ARG=s ...
+   # deposit a Gaussian every 10000000 time steps (never!), with initial height equal to 0.0 kJ/mol 
+   PACE=10000000 HEIGHT=0.0 BIASFACTOR=8# <- this is the new stuff! 
+   # Gaussian width (sigma) should be chosen based on the CV fluctuations in unbiased run 
+   SIGMA=0.05
+   # Gaussians will be written to file and also stored on grid
+   FILE=HILLS GRID_MIN=0 GRID_MAX=3
+   # say that METAD should be restarting (= reading an existing HILLS file) 
+   RESTART=YES # <- this is the new stuff! 
+...
+# print out the values of phi, psi and the metadynamics bias potential
+PRINT ARG=phi,psi,rA,rB,s,metad.bias FILE=COLVAR_REWEIGHT STRIDE=1 # <- also change this one!
